@@ -15,17 +15,16 @@ const github = async (route, accept = "application/json") => {
       Authorization: `token ${token}`,
       accept
     }
-  };
+  }
 
   return fetch(route, options).then(response => {
     if (
       accept === "application/json" ||
-      accept === "application/vnd.github.v3.raw"
+      accept === 'application/vnd.github.v3.raw'
     ) {
-      return response.json();
+      return response.json()
     } else {
-      return response.buffer();
-    }
+      return response.buffer();}
   });
 };
 
@@ -47,9 +46,9 @@ const start = async () => {
   const newestCommitSha = _.sortBy(
     commits,
     commit => -new Date(commit.commit.author.date).getTime()
-  )[0].sha;
+  )[0].sha
 
-  console.log("fetching diffs");
+  console.log("fetching diffs")
   const diffs = await Promise.all(
     commits.map(async commit => {
       console.log(`fetching diff for: ${commit.sha}`);
@@ -68,9 +67,7 @@ const start = async () => {
 
   commitFiles.forEach(files => {
     files.forEach(file => {
-      if (!file.name.endsWith(".js")) {
-        return;
-      }
+      if (!file.name.endsWith(`.js`)) { return; }
 
       console.log(
         `inserting ${file.name} => ${file.lines
